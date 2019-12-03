@@ -10,6 +10,7 @@
 - 支援的Online Judge： [Uva](https://onlinejudge.org/)
 - 一鍵代碼格式化
 ## 安裝
-- [下載STPad](https://github.com/STPad/STPad/releases/download/v1.0/STPad.zip)
+- [下載 STPad](https://github.com/STPad/STPad/releases/download/v1.0/STPad.zip)
+- 解壓縮後，執行exe檔
 - 自行安裝MinGW/g++，並將```%MinGW%/bin```加到Path中。
     - 檢查是否成功：開啟cmd，執行```g++ --version```
