@@ -76,15 +76,19 @@ bool MainWindow::build(){
     save();
     ui->output_textEdit->clear();
     ui->error_textEdit->clear();
-    QString allFilename;
     QString dir = curFile.section("/",0,-2);
     QString filename = curFile.section("/",-1,-1).split(".").at(0);
-    allFilename = filename + ".cpp";
-
+    QString filetype = curFile.section("/",-1,-1).split(".").at(1);
+    QString allFilename = filename + "." + filetype;
+    QString cmd;
+    if(filetype == "c")
+        cmd = "gcc";
+    else if(filetype == "cpp")
+        cmd = "g++";
     QProcess process;
     process.setWorkingDirectory(dir);
     process.setProcessChannelMode(QProcess::MergedChannels);
-    process.start("g++",QStringList()<<allFilename<<"-o"<<filename);
+    process.start(cmd,QStringList()<<allFilename<<"-o"<<filename);
     process.waitForStarted();
     process.waitForFinished();
     QString getStr = process.readAllStandardOutput();
@@ -210,7 +214,7 @@ void MainWindow::on_actionOpen_triggered()
 {
     if(maybeSave()){
         QString fileName =
-                QFileDialog::getOpenFileName(this, tr("開啟檔案"), tr(""), tr("Cpp File(*.cpp)"));
+                QFileDialog::getOpenFileName(this, tr("開啟檔案"), tr(""), tr("C/Cpp File(*.c *.cpp)"));
         if(!fileName.isEmpty()){
             loadFile(fileName);
         }
