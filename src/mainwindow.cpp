@@ -1,12 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QMessageBox>
-#include <QPushButton>
-#include <QFileDialog>
-#include <QTextStream>
-#include <QProcess>
-#include <QDesktopServices>
-#include <QDebug>
+#include "newprojectdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,6 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::receiveNewProjectFilenameData(QString data){
+    loadFile(data);
 }
 
 void MainWindow::codeSubmit(){
@@ -226,7 +224,7 @@ void MainWindow::setCurrentFile(const QString &fileName)
     else
         shownName = QFileInfo(curFile).fileName();
 
-    setWindowTitle(tr("%1[*] - %2").arg(shownName).arg(tr("Application")));
+    setWindowTitle(tr("%1[*] - %2").arg(shownName).arg(tr("STPad")));
 }
 
 void MainWindow::on_actionNew_triggered()
@@ -324,4 +322,11 @@ void MainWindow::on_problem_pbtn_clicked()
 void MainWindow::on_codeSubmit_clicked()
 {
     codeSubmit();
+}
+
+void MainWindow::on_actionNew_Project_triggered()
+{
+    NewProjectDialog *newProjectDig = new NewProjectDialog(this);
+    connect(newProjectDig,SIGNAL(sendNewProjectFilenameData(QString)),this,SLOT(receiveNewProjectFilenameData(QString)));
+    newProjectDig->exec();
 }
