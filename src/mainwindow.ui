@@ -226,7 +226,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>35</height>
+     <height>23</height>
     </rect>
    </property>
    <property name="font">
@@ -243,6 +243,7 @@
     <property name="title">
      <string>檔案(&amp;F)</string>
     </property>
+    <addaction name="actionNew_Project"/>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="separator"/>
@@ -313,6 +314,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionNew_Project"/>
    <addaction name="actionNew"/>
    <addaction name="actionOpen"/>
    <addaction name="separator"/>
@@ -494,6 +496,15 @@
    </property>
    <property name="shortcut">
     <string>F3</string>
+   </property>
+  </action>
+  <action name="actionNew_Project">
+   <property name="icon">
+    <iconset resource="AppResources.qrc">
+     <normaloff>:/images/images/newproject.png</normaloff>:/images/images/newproject.png</iconset>
+   </property>
+   <property name="text">
+    <string>New Project</string>
    </property>
   </action>
  </widget>
