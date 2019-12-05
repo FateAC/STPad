@@ -13,5 +13,6 @@
         <file>images/run.png</file>
         <file>images/undo.png</file>
         <file>images/format.png</file>
+        <file>images/newproject.png</file>
     </qresource>
 </RCC>

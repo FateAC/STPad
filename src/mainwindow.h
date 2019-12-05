@@ -2,6 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QFileDialog>
+#include <QTextStream>
+#include <QProcess>
+#include <QDesktopServices>
+#include <QDebug>
 #include <src/codeeditor.h>
 
 QT_BEGIN_NAMESPACE
@@ -47,8 +54,10 @@ private slots:
     void on_outputClear_pbtn_clicked();
     void on_actionAStyle_triggered();
     void on_problem_pbtn_clicked();
-
     void on_codeSubmit_clicked();
+    void on_actionNew_Project_triggered();
+
+    void receiveNewProjectFilenameData(QString data);
 
 private:
     Ui::MainWindow *ui;
