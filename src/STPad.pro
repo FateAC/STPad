@@ -18,14 +18,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    newprojectdialog.cpp \
     src/codeeditor.cpp
 
 HEADERS += \
     mainwindow.h \
+    newprojectdialog.h \
     src/codeeditor.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    newprojectdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
