@@ -288,9 +288,10 @@
      </font>
     </property>
     <property name="title">
-     <string>排版(&amp;S)</string>
+     <string>格式化(&amp;S)</string>
     </property>
     <addaction name="actionAStyle"/>
+    <addaction name="actionTemplate"/>
    </widget>
    <addaction name="menu_F"/>
    <addaction name="menu_E"/>
@@ -333,6 +334,7 @@
    <addaction name="actionBuild_and_run"/>
    <addaction name="separator"/>
    <addaction name="actionAStyle"/>
+   <addaction name="actionTemplate"/>
   </widget>
   <action name="actionNew">
    <property name="icon">
@@ -505,6 +507,18 @@
    </property>
    <property name="text">
     <string>New Project</string>
+   </property>
+  </action>
+  <action name="actionTemplate">
+   <property name="icon">
+    <iconset resource="AppResources.qrc">
+     <normaloff>:/images/images/template.png</normaloff>:/images/images/template.png</iconset>
+   </property>
+   <property name="text">
+    <string>Template</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
    </property>
   </action>
  </widget>

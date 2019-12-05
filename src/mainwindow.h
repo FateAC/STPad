@@ -35,8 +35,11 @@ public:
     void autoformat();
     void problemCrawler();
     void codeSubmit();
+    void setTemplate();
 
 private slots:
+    void receiveNewProjectFilenameData(QString data);
+
     void on_actionNew_triggered();
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
@@ -56,8 +59,7 @@ private slots:
     void on_problem_pbtn_clicked();
     void on_codeSubmit_clicked();
     void on_actionNew_Project_triggered();
-
-    void receiveNewProjectFilenameData(QString data);
+    void on_actionTemplate_triggered();
 
 private:
     Ui::MainWindow *ui;
