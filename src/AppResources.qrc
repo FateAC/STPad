@@ -14,5 +14,6 @@
         <file>images/undo.png</file>
         <file>images/format.png</file>
         <file>images/newproject.png</file>
+        <file>images/template.png</file>
     </qresource>
 </RCC>
