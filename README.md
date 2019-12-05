@@ -15,3 +15,4 @@
 - 解壓縮後，執行exe檔
 - 自行安裝MinGW/g++，並將```%MinGW%/bin```加到Path中。
     - 檢查是否成功：開啟cmd，執行```g++ --version```
+- [下載](https://chromedriver.chromium.org/downloads)對應Google Chrome版本的Chromedriver，將chromedriver.exe放進`STPad/Python/CodeSubmit/`資料夾裡
