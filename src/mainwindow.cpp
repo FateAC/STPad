@@ -40,6 +40,7 @@ void MainWindow::codeSubmit(){
         process.write("\r\n");
     }
     process.waitForFinished();
+    process.close();
 }
 
 void MainWindow::problemCrawler(){
@@ -56,6 +57,7 @@ void MainWindow::problemCrawler(){
     QString getStr = QString(process.readAllStandardOutput());
     qDebug()<<getStr<<endl;
     QDesktopServices::openUrl(QUrl("file:///"+dir + "problems/" + problemID + ".pdf"));
+    process.close();
 }
 
 void MainWindow::autoformat(){
@@ -67,15 +69,24 @@ void MainWindow::autoformat(){
     QProcess process;
     process.setWorkingDirectory(dir);
     process.start(dir+"AStyle.exe",QStringList()<<"--suffix=none"<<"--style=google"<<"--pad-oper"<<"--break-closing-braces"<<m_curFile);
-    process.waitForStarted();
-    process.waitForFinished();
-    loadFile(m_curFile);
+    if(!process.waitForStarted()){
+        process.close();
+        ui->error_textEdit->setText("Auto-Format Failed");
+        return;
+    }
+    if(process.waitForFinished()){
+        loadFile(m_curFile);
+        ui->error_textEdit->setText("Auto-Format Successful");
+    }
+    else{
+        ui->error_textEdit->setText("Auto-Format Failed");
+    }
+    process.close();
 }
 
 bool MainWindow::build(){
     save();
     ui->output_textEdit->clear();
-    ui->error_textEdit->clear();
     QString dir = curFile.section("/",0,-2);
     QString filename = curFile.section("/",-1,-1).split(".").at(0);
     QString filetype = curFile.section("/",-1,-1).split(".").at(1);
@@ -85,22 +96,38 @@ bool MainWindow::build(){
         cmd = "gcc";
     else if(filetype == "cpp")
         cmd = "g++";
+    else if(cmd.isEmpty()){
+        ui->error_textEdit->setText("The type of file is wrong!");
+        return false;
+    }
     QProcess process;
     process.setWorkingDirectory(dir);
     process.setProcessChannelMode(QProcess::MergedChannels);
     process.start(cmd,QStringList()<<allFilename<<"-o"<<filename);
-    process.waitForStarted();
-    process.waitForFinished();
-    QString getStr = process.readAllStandardOutput();
-    if(!getStr.isEmpty()){
-        ui->error_textEdit->setText(getStr);
+    if(!process.waitForStarted()){
+        process.close();
+        ui->error_textEdit->setText("Build Failed");
         return false;
     }
-    ui->error_textEdit->setText("Build Successful");
-    return true;
+    if(process.waitForFinished()){
+        QString getStr = process.readAllStandardOutput();
+        process.close();
+        if(!getStr.isEmpty()){
+            ui->error_textEdit->setText(getStr);
+            return false;
+        }
+        ui->error_textEdit->setText("Build Successful");
+        return true;
+    }
+    else{
+        process.close();
+        ui->error_textEdit->setText("Build Failed");
+        return false;
+    }
 }
 
 void MainWindow::run(){
+    ui->output_textEdit->clear();
     QString cmd;
     QString dir = curFile.section("/",0,-2);
     QString filename = curFile.section("/",-1,-1).split(".").at(0);
@@ -108,13 +135,20 @@ void MainWindow::run(){
 
     QProcess process;
     process.start(cmd);
-    process.waitForStarted();
+    if(!process.waitForStarted()){
+        ui->error_textEdit->setText("Run Failed");
+        process.close();
+        return;
+    }
     QString input = ui->input_textEdit->toPlainText();
     process.write(input.toStdString().data());
     process.write("\r\n");
-    process.waitForFinished(7000);
-    QString getStr = QString(process.readAllStandardOutput());
-    ui->output_textEdit->setText(getStr);
+    if(process.waitForFinished(7000)){
+        QString getStr = QString(process.readAllStandardOutput());
+        ui->output_textEdit->setText(getStr);
+        ui->error_textEdit->setText("Run Successful");
+    }
+    process.close();
 }
 
 void MainWindow::newFile(){
