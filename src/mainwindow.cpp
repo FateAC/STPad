@@ -17,8 +17,24 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::setTemplate(){
+    if(curFile.isEmpty())
+        return;
+    QString filetype = curFile.section("/",-1,-1).split(".").at(1);
+    QString dir = QCoreApplication::applicationDirPath() + "/plugins/Template/";
+    QFile file(dir + "template." + filetype);
+    if(!file.open(QFile::ReadOnly | QFile::Text)){
+        return;
+    }
+    QTextStream in(&file);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    codeEditor->editor->setText(in.readAll());
+    QApplication::restoreOverrideCursor();
+}
+
 void MainWindow::receiveNewProjectFilenameData(QString data){
     loadFile(data);
+    setTemplate();
 }
 
 void MainWindow::codeSubmit(){
@@ -220,7 +236,7 @@ void MainWindow::setCurrentFile(const QString &fileName)
 
     QString shownName;
     if (curFile.isEmpty())
-        shownName = "untitled.txt";
+        shownName = "";
     else
         shownName = QFileInfo(curFile).fileName();
 
@@ -329,4 +345,9 @@ void MainWindow::on_actionNew_Project_triggered()
     NewProjectDialog *newProjectDig = new NewProjectDialog(this);
     connect(newProjectDig,SIGNAL(sendNewProjectFilenameData(QString)),this,SLOT(receiveNewProjectFilenameData(QString)));
     newProjectDig->exec();
+}
+
+void MainWindow::on_actionTemplate_triggered()
+{
+    setTemplate();
 }
