@@ -4,7 +4,7 @@ pipeline {
         //cloud 'kubernetes'
         containerTemplate {
           name 'stpad'
-          image 'mcr.microsoft.com/windows:1903'
+          image 'ubuntu:18.04'
           ttyEnabled true
        }
     }
@@ -13,7 +13,7 @@ pipeline {
     stage('Pre-Build') {
       steps {
         sh 'echo Hello World'
-        sh 'dir'
+        sh 'ls'
       }
     }
   }
