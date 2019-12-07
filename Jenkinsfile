@@ -16,7 +16,7 @@ pipeline {
         sh 'cd /tmp'
         sh 'wget https://download.qt.io/official_releases/qt/5.13/5.13.2/qt-opensource-linux-x64-5.13.2.run'
         sh 'chmod +x qt-opensource-linux-x64-5.13.2.run'
-        sh './qt-opensource-linux-x64-5.7.0.run'
+        sh './qt-opensource-linux-x64-5.13.2.run'
       }
     }
     stage('Build') {
