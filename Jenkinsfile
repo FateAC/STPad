@@ -3,7 +3,7 @@ pipeline {
     kubernetes {
         //cloud 'kubernetes'
         containerTemplate {
-          name 'STPad'
+          name 'stpad'
           image 'mcr.microsoft.com/windows:1903'
           ttyEnabled true
        }
