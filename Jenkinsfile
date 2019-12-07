@@ -4,7 +4,7 @@ pipeline {
         //cloud 'kubernetes'
         containerTemplate {
           name 'stpad'
-          image 'ubuntu:18.04'
+          image 'vookimedlo/ubuntu-qt:5.12_clang_bionic'
           ttyEnabled true
        }
     }
@@ -14,6 +14,11 @@ pipeline {
       steps {
         sh 'echo Hello World'
         sh 'ls'
+      }
+    }
+    stage('Build') {
+      steps {
+        sh 'qmake src/STPad.pro'
       }
     }
   }
