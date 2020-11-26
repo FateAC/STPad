@@ -17,24 +17,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::setTemplate(){
-    if(curFile.isEmpty())
-        return;
-    QString filetype = curFile.section("/",-1,-1).split(".").at(1);
-    QString dir = QCoreApplication::applicationDirPath() + "/plugins/Template/";
-    QFile file(dir + "template." + filetype);
-    if(!file.open(QFile::ReadOnly | QFile::Text)){
-        return;
-    }
-    QTextStream in(&file);
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-    codeEditor->editor->setText(in.readAll());
-    QApplication::restoreOverrideCursor();
-}
-
 void MainWindow::receiveNewProjectFilenameData(QString data){
     loadFile(data);
-    setTemplate();
+    codeTemplate->setTemplate(curFile, codeEditor);
 }
 
 void MainWindow::codeSubmit(){
@@ -71,30 +56,6 @@ void MainWindow::problemCrawler(){
     QString getStr = QString(process.readAllStandardOutput());
     qDebug()<<getStr<<endl;
     QDesktopServices::openUrl(QUrl("file:///"+dir + "problems/" + problemID + ".pdf"));
-    process.close();
-}
-
-void MainWindow::autoformat(){
-    save();
-    QString m_curFile = curFile;
-    //--style=google --pad-oper --break-closing-braces
-    newFile();
-    QString dir = QCoreApplication::applicationDirPath() + "/plugins/AStyle/";
-    QProcess process;
-    process.setWorkingDirectory(dir);
-    process.start(dir+"AStyle.exe",QStringList()<<"--suffix=none"<<"--style=google"<<"--pad-oper"<<"--break-closing-braces"<<m_curFile);
-    if(!process.waitForStarted()){
-        process.close();
-        ui->error_textEdit->setText("Auto-Format Failed");
-        return;
-    }
-    if(process.waitForFinished()){
-        loadFile(m_curFile);
-        ui->error_textEdit->setText("Auto-Format Successful");
-    }
-    else{
-        ui->error_textEdit->setText("Auto-Format Failed");
-    }
     process.close();
 }
 
@@ -317,7 +278,11 @@ void MainWindow::on_actionBuild_and_run_triggered()
 
 void MainWindow::on_actionAStyle_triggered()
 {
-    autoformat();
+    save();
+    QString m_curFile = curFile;
+    newFile();
+    codeFromat->autoformat(m_curFile, ui);
+    loadFile(m_curFile);
 }
 
 void MainWindow::on_inputClear_pbtn_clicked()
@@ -343,11 +308,11 @@ void MainWindow::on_codeSubmit_clicked()
 void MainWindow::on_actionNew_Project_triggered()
 {
     NewProjectDialog *newProjectDig = new NewProjectDialog(this);
-    connect(newProjectDig,SIGNAL(sendNewProjectFilenameData(QString)),this,SLOT(receiveNewProjectFilenameData(QString)));
+    connect(newProjectDig,SIGNAL(sendNewProjectFilenameData(QString)), this, SLOT(receiveNewProjectFilenameData(QString)));
     newProjectDig->exec();
 }
 
 void MainWindow::on_actionTemplate_triggered()
 {
-    setTemplate();
+    codeTemplate->setTemplate(curFile, codeEditor);
 }
