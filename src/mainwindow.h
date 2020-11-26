@@ -9,7 +9,9 @@
 #include <QProcess>
 #include <QDesktopServices>
 #include <QDebug>
-#include <src/codeeditor.h>
+#include "src/codeeditor.h"
+#include "src/codetemplate.h"
+#include "src/codeformat.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -32,10 +34,8 @@ public:
     void setCurrentFile(const QString &fileName);
     bool build();
     void run();
-    void autoformat();
     void problemCrawler();
     void codeSubmit();
-    void setTemplate();
 
 private slots:
     void receiveNewProjectFilenameData(QString data);
@@ -65,5 +65,7 @@ private:
     Ui::MainWindow *ui;
     QString curFile;
     CodeEditor *codeEditor = new CodeEditor();
+    CodeTemplate *codeTemplate = new CodeTemplate();
+    CodeFormat *codeFromat = new CodeFormat();
 };
 #endif // MAINWINDOW_H

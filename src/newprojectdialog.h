@@ -23,7 +23,6 @@ signals:
 
 private slots:
     void on_create_pbtn_clicked();
-
     void on_path_pushButton_clicked();
 
 private:

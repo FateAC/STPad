@@ -19,12 +19,16 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     newprojectdialog.cpp \
-    src/codeeditor.cpp
+    src/codeeditor.cpp \
+    src/codeformat.cpp \
+    src/codetemplate.cpp
 
 HEADERS += \
     mainwindow.h \
     newprojectdialog.h \
-    src/codeeditor.h
+    src/codeeditor.h \
+    src/codeformat.h \
+    src/codetemplate.h
 
 FORMS += \
     mainwindow.ui \
